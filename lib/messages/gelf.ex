@@ -19,39 +19,17 @@ defmodule Messages.Gelf do
 
   @type t :: %__MODULE__{
           _facility: String.t() | pos_integer,
-          file: String.t(),
+          file: String.t() | nil,
           full_message: String.t(),
           host: String.t(),
           level: pos_integer,
-          line: non_neg_integer,
+          line: non_neg_integer | nil,
           short_message: String.t(),
           timestamp: non_neg_integer,
           version: String.t()
         }
 
   @spec new(map) :: t()
-  def new(%{file: nil, line: nil} = data) do
-    %{
-      file: file,
-      full_message: full_message,
-      host: host,
-      level: level,
-      line: line,
-      short_message: short_message,
-      timestamp: timestamp
-    } = data
-
-    %__MODULE__{
-      file: file,
-      full_message: full_message,
-      host: host,
-      level: level,
-      line: line,
-      short_message: short_message,
-      timestamp: timestamp
-    }
-  end
-
   def new(data) do
     %{
       file: file,

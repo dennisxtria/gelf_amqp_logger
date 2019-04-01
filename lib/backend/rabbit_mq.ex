@@ -6,6 +6,7 @@ defmodule Backend.RabbitMQ do
   @exchange_name Config.exchange_name()
   @routing_key Config.routing_key()
 
+  @spec init_conn :: AMQP.Channel.t()
   def init_conn do
     connection_opts = Config.connection_opts()
     queue_opts = Config.queue_opts()

@@ -19,19 +19,15 @@ defmodule GelfAMQPHandler do
   end
 
   @impl true
-  def handle_call({:initialize, _options}, _state) do
-    {:ok, :ok, RabbitMQ.init_conn()}
-  end
+  def handle_call({:initialize, _options}, _state), do: {:ok, :ok, RabbitMQ.init_conn()}
 
   @impl true
-  def handle_info(_msg, state) do
-    {:ok, state}
-  end
+  def handle_info(_msg, state), do: {:ok, state}
 
   @impl true
-  def handle_event({level, _group_leader, {Logger, message, timestamp, metadata}}, channel) do
+  def handle_event(event, channel) do
+    {level, _group_leader, {Logger, message, timestamp, metadata}} = event
     AMQP.log_event(level, message, timestamp, metadata, channel)
-
     {:ok, channel}
   end
 end

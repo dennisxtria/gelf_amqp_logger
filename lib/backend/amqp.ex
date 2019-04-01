@@ -16,7 +16,33 @@ defmodule Backend.AMQP do
     |> RabbitMQ.publish_gelf(channel)
   end
 
-  defp build_gelf_map(level, message, timestamp, metadata) do
+  @doc ~S"""
+  Builds a map that consists of all the necessary information
+  according to GELF 1.1 sepcification.
+
+  ## Examples
+
+      iex> metadata = [
+      ...>   pid: 22,
+      ...>   line: 102,
+      ...>   function: "xrmq_open_channel/1",
+      ...>   module: Ariadne.BetslipService.API.Producer,
+      ...>   file: "lib/ex_rabbit_m_q/a_s_t/common.ex",
+      ...>   application: :ariadne_betslip_service
+      ...>   ]
+      iex> timestamp = {{2019, 3, 10}, {11, 6, 23, 345}}
+      iex> Backend.AMQP.build_gelf_map(:info, "example message", timestamp, metadata)
+      %{
+        file: "lib/ex_rabbit_m_q/a_s_t/common.ex",
+        full_message: "example message",
+        host: "localhost",
+        level: 6,
+        line: 102,
+        short_message: "example message",
+        timestamp: 1552215983.345
+      }
+  """
+  def build_gelf_map(level, message, timestamp, metadata) do
     int_level = Utils.level_to_int(level)
     unix_timestamp = Utils.to_unix(timestamp)
 
