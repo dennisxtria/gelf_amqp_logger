@@ -45,12 +45,13 @@ defmodule Backend.AMQP do
   def build_gelf_map(level, message, timestamp, metadata) do
     int_level = Utils.level_to_int(level)
     unix_timestamp = Utils.to_unix(timestamp)
+    full_message = to_string(message)
 
     %{
-      full_message: to_string(message),
+      full_message: full_message,
       host: @host,
       level: int_level,
-      short_message: String.slice(message, 0..79),
+      short_message: String.slice(full_message, 0..79),
       timestamp: unix_timestamp
     }
     |> fill_file_line_if_present(metadata)
