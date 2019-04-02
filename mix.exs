@@ -20,7 +20,6 @@ defmodule GelfAMQPLogger.MixProject do
   defp deps do
     [
       {:amqp, "~> 1.1"},
-      {:ex_doc, "~> 0.19.3", only: :dev, runtime: false},
       {:jason, "~> 1.1"}
     ]
   end
