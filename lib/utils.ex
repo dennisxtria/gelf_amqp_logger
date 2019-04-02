@@ -15,4 +15,13 @@ defmodule Utils do
   def level_to_int(:info), do: 6
   def level_to_int(:warn), do: 4
   def level_to_int(:error), do: 3
+
+  def create_additional_fields(metadata) do
+    metadata
+    |> Map.new(fn
+      {k, pid} when is_pid(pid) -> {"_#{k}", inspect(pid)}
+      {k, v} -> {"_#{k}", to_string(v)}
+    end)
+    |> Map.drop(["_id"])
+  end
 end
