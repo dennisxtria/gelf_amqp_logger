@@ -17,18 +17,20 @@ Documentation can be generated with [ExDoc](https://github.com/elixir*lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/gelf_amqp_logger](https://hexdocs.pm/gelf_amqp_logger).
 
-## Metrics
-
-### Usage
+## Usage
 
 * First, you need to have a Graylog instance up and running. In order to do that, you'll need to do the following:
 
 * Install [Docker Toolbox](https://docs.docker.com/toolbox/).
 
-* Then, you have to run the following command in the directory that the `graylog/docker-compose.yml` resides.
+* Stop your docker machine in order to adjust the memory to 4096 MB, and start it again:
 
 ```bash
-docker-compose up
+docker-machine stop
+```
+
+```bash
+docker-machine start
 ```
 
 * You also have to enable port-forwarding in your VM the following ports:
@@ -38,6 +40,16 @@ docker-compose up
   * 15671:15671
   * 5671:5671
   * 5672:5672
+
+* Then, you have to run the following command in the directory that the `graylog/docker-compose.yml` resides.
+
+```bash
+docker-compose up
+```
+
+* Now, considering that everything went well, you should have a Graylog instance in `localhost:9000` if you didn't tinker with the `docker-compose.yml`. The username and password are both `admin` by default.
+
+Furthermore, you have to set up an input so that you will see you application logs in Graylog. To do that, you click on `System -> Inputs` and at `Select Input` you choose `GELF AMQP` and `Launch New Input`. Then, you choose the title of your input, select the node that is available, input the IP that your VM has already set up and fill up accordingly the queue name, exchange name and routing key that is the same as in your `config.exs`. Also, the usename and password must be the same as in your `.secrets.exs` file. Then, you click `Save` and  `Show received messages` and enable auto-updating.
 
 * Add the dep in your `mix.exs` accordingly:
 
@@ -98,7 +110,7 @@ config :logger, :gelf_amqp_logger,
   ]
   ```
 
-Also, add the following secrets for your RabbitMQ instance: 
+Also, add the following secrets for your RabbitMQ instance:
 
 ```elixir
 config :logger, :gelf_amqp_logger,
