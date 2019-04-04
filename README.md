@@ -28,7 +28,7 @@ be found at [https://hexdocs.pm/gelf_amqp_logger](https://hexdocs.pm/gelf_amqp_l
 * Then, you have to run the following command in the directory that the `graylog/docker-compose.yml` resides.
 
 ```bash
-docker*compose up
+docker-compose up
 ```
 
 * You also have to enable port-forwarding in your VM the following ports:
@@ -97,3 +97,11 @@ config :logger, :gelf_amqp_logger,
     passive: false
   ]
   ```
+
+Also, add the following secrets for your RabbitMQ instance: 
+
+```elixir
+config :logger, :gelf_amqp_logger,
+  username: <your username>,
+  password: <your password>
+```
