@@ -57,7 +57,7 @@ Furthermore, you have to set up an input so that you will see you application lo
 defp deps() do
   [
     ...,
-    {:gelf_amqp_logger, ariadne: "lib/gelf_amqp_logger"},
+    {:gelf_amqp_logger, github: "dennisxtria/gelf_amqp_logger"},
     ...
   ]
 end

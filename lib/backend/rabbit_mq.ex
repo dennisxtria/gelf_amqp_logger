@@ -1,8 +1,6 @@
 defmodule Backend.RabbitMQ do
   @moduledoc false
 
-  alias Config
-
   @exchange_name Config.exchange_name()
   @routing_key Config.routing_key()
 
